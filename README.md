@@ -10,7 +10,7 @@ Description
 
 These scripts attempt to make it easier for scheduled backups, with scheduled deletion of old backups. It lets you keep X daily backups, Y weekly backups and Z monthly backups, you can. 
 
-Archiving and pruning can be run on different systems. The default weekly backups are on Mondays, and monthly backups are on the first. It currently presumes an always-on system; there's no anacron-style handling yet. 
+Archiving and pruning can be run on different systems. The default weekly backups are on Mondays, and monthly backups are on the first. 
 
 This is based on work by [Tim Bishop][bishop]. I'm writing and testing this on Linux systems. It may work on FreeBSD, or not. You can try it, or just try his code. 
 
