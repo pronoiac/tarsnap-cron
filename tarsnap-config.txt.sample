@@ -1,0 +1,5 @@
+# label	path
+home 	/home
+etc 	/etc
+local-etc /usr/local/etc
+www 	/var/www

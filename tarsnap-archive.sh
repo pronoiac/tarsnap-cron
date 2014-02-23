@@ -4,9 +4,14 @@
 # Written by Tim Bishop, 2009.
 # Modified by Pronoiac, 2014. 
 
-# Directories to backup
-DIRS="/home /etc /usr/local/etc"
-# tofix: not currently in use
+# Directories to backup - set in
+CONFIG=tarsnap-config.txt
+# e.g. 
+# # label	path
+# home 	/home
+# etc 	/etc
+# www 	/var/www
+
 
 # Which day to do weekly backups on
 # 1-7, Monday = 1
@@ -58,10 +63,13 @@ else
 fi
 
 # Do backups
-echo Backing up /home files...
-cd /home && \
-  $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-home-$BACKUP-$SUFFIX .
-
-echo Backing up web files...
-cd /var/www && \
-  $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-www-$BACKUP-$SUFFIX .
+echo Starting backups. 
+while read line; do
+    case "$line" in \#*) continue;; esac # skip lines starting with "#"
+    set $line
+    label=$1
+    path=$2
+    echo "==> create $PREFIX-$label-$BACKUP-$SUFFIX"
+    echo "cd $path && \
+      $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$BACKUP-$SUFFIX ."
+done <$CONFIG
