@@ -5,7 +5,7 @@
 # Modified by Pronoiac, 2014. 
 
 # Directories to backup - set in
-CONFIG=tarsnap-config.txt
+CONFIG=/etc/tarsnap-cron.conf
 # e.g. 
 # # label	path
 # home 	/home
