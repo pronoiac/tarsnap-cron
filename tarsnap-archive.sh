@@ -12,14 +12,17 @@ CONFIG=tarsnap-config.txt
 # etc 	/etc
 # www 	/var/www
 
+timestamp=`date +%Y-%m-%d-%H%M`
 
-# Which day to do weekly backups on
-# 1-7, Monday = 1
-WEEKLY_DAY=1
-
-# Which day to do monthly backups on
-# 01-31 (leading 0 is important)
-MONTHLY_DAY=01
+# the last part of the suffix is now specified on the command line
+# cron should call this with daily, weekly, monthly, as appropriate
+# typical suffix: 2014-02-22-1920-daily
+if [ $# -ne 0 ]
+then
+  SUFFIX=$timestamp-$1
+else
+  SUFFIX=$timestamp
+fi
 
 # Path to tarsnap
 #TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
@@ -36,40 +39,15 @@ EXTRA_PARAMETERS="--maxbw-rate-up $BANDWIDTH"
 # end of config
 
 
-# day of week: 1-7, monday = 1
-DOW=`date +%u`
-# day of month: 01-31
-DOM=`date +%d`
-# month of year: 01-12
-MOY=`date +%m`
-# year
-YEAR=`date +%Y`
-# time
-# TIME=`date +%H%M%S`
-TIME=`date +%H%M`
-
-BACKUP="$YEAR$MOY$DOM-$TIME"
-
-# Backup name
-if [ X"$DOM" = X"$MONTHLY_DAY" ]; then
-	# monthly backup
-	SUFFIX="monthly"
-elif [ X"$DOW" = X"$WEEKLY_DAY" ]; then
-	# weekly backup
-	SUFFIX="weekly"
-else
-	# daily backup
-	SUFFIX="daily"
-fi
-
 # Do backups
 echo Starting backups. 
 while read line; do
     case "$line" in \#*) continue;; esac # skip lines starting with "#"
     set $line
+    # typical label & path: home and /home
     label=$1
     path=$2
-    echo "==> create $PREFIX-$label-$BACKUP-$SUFFIX"
+    echo "==> create $PREFIX-$label-$SUFFIX"
     echo "cd $path && \
-      $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$BACKUP-$SUFFIX ."
+      $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$SUFFIX ."
 done <$CONFIG

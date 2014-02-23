@@ -1,0 +1,13 @@
+# this is set for backups at an arbitary 1:01am. 
+1 1 1 * * 	tarsnap.cron monthly	# every 1st.
+1 1 2-31 * 1 	tarsnap.cron weekly	# every Monday, not on 1st
+1 1 2-31 * 2-7	tarsnap.cron daily	# every day, not on 1st, or on Mon
+1 0,2-23 * * *	tarsnap.cron hourly	# not at 1:01. not watched by prune yet. 
+* * * * * *
+| | | | | | 
+| | | | | +-- Year              (range: 1900-3000)
+| | | | +---- Day of the Week   (range: 1-7, 1 standing for Monday)
+| | | +------ Month of the Year (range: 1-12)
+| | +-------- Day of the Month  (range: 1-31)
+| +---------- Hour              (range: 0-23)
++------------ Minute            (range: 0-59)
