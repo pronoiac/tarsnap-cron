@@ -48,6 +48,6 @@ while read line; do
     label=$1
     path=$2
     echo "==> create $PREFIX-$label-$SUFFIX"
-    echo "cd $path && \
-      $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$SUFFIX ."
+    cd $path && \
+      $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$SUFFIX .
 done <$CONFIG
