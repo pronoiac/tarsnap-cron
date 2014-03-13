@@ -1,13 +1,21 @@
 # this is set for backups at an arbitary 1:01am. 
-1 1 1 * *       /usr/local/bin/tarsnap-archive.sh monthly	# every 1st.
-1 1 2-31 * 1    /usr/local/bin/tarsnap-archive.sh weekly	# every Monday, not on 1st
-1 1 2-31 * 2-7  /usr/local/bin/tarsnap-archive.sh daily	# every day, not on 1st, or on Mon
-# 1 0,2-23 * * * /usr/local/bin/tarsnap-archive.sh hourly	# not at 1:01. not watched by prune yet. 
-* * * * * *
-| | | | | | 
-| | | | | +-- Year              (range: 1900-3000) - this isn't common. 
-| | | | +---- Day of the Week   (range: 1-7, 1 standing for Monday)
+
+# monthly - every 1st 
+1 1 1 * *  /usr/local/bin/tarsnap-archive.sh monthly
+
+# weekly - every Monday, not on 1st
+1 1 * * *  test $(date +%u) -eq 1 && test $(date +%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh weekly
+
+# daily - every day, except on 1st, or on Monday
+1 1 * * *  test $(date +%u) -ne 1 && test $(date +%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh daily
+
+# hourly - 1 minute after the hour, except 1:01. not watched by prune yet.
+# 1 0,2-23 * * * /usr/local/bin/tarsnap-archive.sh hourly
+
+* * * * * 
+| | | | | 
+| | | | +---- Day of the Week   (range: 1-7) - date +%u, 1 standing for Monday
 | | | +------ Month of the Year (range: 1-12)
-| | +-------- Day of the Month  (range: 1-31)
+| | +-------- Day of the Month  (range: 1-31) - date +%e
 | +---------- Hour              (range: 0-23)
 +------------ Minute            (range: 0-59)
