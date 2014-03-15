@@ -4,10 +4,10 @@
 1 1 1 * *  /usr/local/bin/tarsnap-archive.sh monthly
 
 # weekly - every Monday, not on 1st
-1 1 * * *  test $(date +%u) -eq 1 && test $(date +%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh weekly
+1 1 * * *  test $(date +\%u) -eq 1 && test $(date +\%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh weekly
 
 # daily - every day, except on 1st, or on Monday
-1 1 * * *  test $(date +%u) -ne 1 && test $(date +%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh daily
+1 1 * * *  test $(date +\%u) -ne 1 && test $(date +\%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh daily
 
 # hourly - 1 minute after the hour, except 1:01. not watched by prune yet.
 # 1 0,2-23 * * * /usr/local/bin/tarsnap-archive.sh hourly
