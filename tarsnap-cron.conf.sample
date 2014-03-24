@@ -1,5 +1,43 @@
-# label	path
-home 	/home
-etc 	/etc
-local-etc /usr/local/etc
-www 	/var/www
+# shared between tarsnap-archive and tarsnap-prune 
+
+# this file is executed as part of each of those. 
+# it offers the capabilities of shell scripts. 
+# this can present a security issue! this file should not be world-writable.
+
+# Path to tarsnap
+#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
+TARSNAP="/usr/local/bin/tarsnap"
+
+# DEBUG=true
+
+if [ "$DEBUG" = "true" ]
+then
+    TARSNAP="echo tarsnap"
+fi
+
+# list of backups
+# format: label=path
+BACKUP_ARRAY=(
+    home=/home
+    etc=/etc
+    www=/var/www
+)
+
+PREFIX=`hostname`
+
+
+## tarsnap-archive options
+
+BANDWIDTH=100000
+# bytes per second
+
+EXTRA_PARAMETERS="--maxbw-rate-up $BANDWIDTH"
+
+
+
+## options for tarsnap-prune
+
+# Number of daily / weekly / monthly backups to keep
+DAILY=7
+WEEKLY=5
+MONTHLY=12

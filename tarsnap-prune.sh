@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Tarsnap backup script
 # Written by Tim Bishop, 2009.
@@ -6,26 +6,17 @@
 
 # Directories to backup - set in
 CONFIG=/etc/tarsnap-cron.conf
-# e.g. 
-# # label	path
-# home 	/home
-# etc 	/etc
-# www 	/var/www
+#CONFIG=tarsnap-cron.conf
 
-# Number of daily / weekly / monthly backups to keep
-DAILY=7
-WEEKLY=5
-MONTHLY=12
+# note: this evals the config file, which can present a security issue
+# unless it's locked with the right permissions - e.g. not world-writable
+if [ ! -r "$CONFIG" ] ; then 
+    echo "ERROR: Couldn't read config file $CONFIG"
+    echo Exiting now!
+    exit 1
+fi
 
-# Path to tarsnap
-#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
-TARSNAP="/usr/local/bin/tarsnap"
-# TARSNAP="echo"
-
-# PREFIX="foobar" # I use the hostname at the start
-PREFIX=`hostname`
-
-# DEBUG=true
+source $CONFIG
 
 # end of config
 
@@ -51,12 +42,11 @@ fi
 
 DELARCHIVES=""
 
-while read line; do
-    case "$line" in \#*) continue;; esac # skip lines starting with "#"
-    set $line
-    # typical label & path: home and /home
-    label=$1
-    path=$2
+for BACKUP in "${BACKUP_ARRAY[@]}"; do
+    SPLIT=(${BACKUP//=/ })
+    # typical label & path: www and /var/www
+    label=${SPLIT[0]}
+    path=${SPLIT[1]}
 
 	# daily
 	for i in `grep -E "^$PREFIX-$label-.+-daily$" $TMPFILE | sort -rn | tail -n +$DAILY`; do
@@ -75,7 +65,7 @@ while read line; do
 		echo "==> delete $i"
 		DELARCHIVES="$DELARCHIVES -f $i"
 	done
-done <$CONFIG
+done
 
 if [ X"$DELARCHIVES" != X ]; then
     echo "==> delete $DELARCHIVES"

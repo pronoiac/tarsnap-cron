@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Tarsnap backup script
 # Written by Tim Bishop, 2009.
@@ -6,11 +6,17 @@
 
 # Directories to backup - set in
 CONFIG=/etc/tarsnap-cron.conf
-# e.g. 
-# # label	path
-# home 	/home
-# etc 	/etc
-# www 	/var/www
+# CONFIG=tarsnap-cron.conf
+
+# note: this evals the config file, which can present a security issue
+# unless it's locked with the right permissions - e.g. not world-writable
+if [ ! -r "$CONFIG" ] ; then 
+    echo "ERROR: Couldn't read config file $CONFIG"
+    echo Exiting now!
+    exit 1
+fi
+
+source $CONFIG
 
 timestamp=`date +%Y-%m-%d-%H%M`
 
@@ -24,30 +30,18 @@ else
   SUFFIX=$timestamp
 fi
 
-# Path to tarsnap
-#TARSNAP="/home/tdb/tarsnap/tarsnap.pl"
-TARSNAP="/usr/local/bin/tarsnap"
-# TARSNAP="echo"
-
-PREFIX=`hostname`
-
-BANDWIDTH=100000
-# bytes per second
-
-EXTRA_PARAMETERS="--maxbw-rate-up $BANDWIDTH"
-
 # end of config
 
 
 # Do backups
 echo Starting backups. 
-while read line; do
-    case "$line" in \#*) continue;; esac # skip lines starting with "#"
-    set $line
-    # typical label & path: home and /home
-    label=$1
-    path=$2
+
+for BACKUP in "${BACKUP_ARRAY[@]}"; do
+    SPLIT=(${BACKUP//=/ })
+    # typical label & path: www and /var/www
+    label=${SPLIT[0]}
+    path=${SPLIT[1]}
     echo "==> create $PREFIX-$label-$SUFFIX"
     cd $path && \
       $TARSNAP $EXTRA_PARAMETERS -c -f $PREFIX-$label-$SUFFIX .
-done <$CONFIG
+done
