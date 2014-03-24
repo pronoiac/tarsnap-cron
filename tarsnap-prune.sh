@@ -25,6 +25,8 @@ TARSNAP="/usr/local/bin/tarsnap"
 # PREFIX="foobar" # I use the hostname at the start
 PREFIX=`hostname`
 
+# DEBUG=true
+
 # end of config
 
 
@@ -36,11 +38,20 @@ WEEKLY=`expr $WEEKLY + 1`
 MONTHLY=`expr $MONTHLY + 1`
 
 # Do deletes
-TMPFILE=/tmp/tarsnap.archives.$$
-$TARSNAP --configfile /etc/tarsnap.conf --list-archives > $TMPFILE
+if [ "$DEBUG" = "true" ]
+then
+    TMPFILE=/tmp/tarsnap.archives
+    if [ ! -f $TMPFILE ]; then
+        $TARSNAP --configfile /etc/tarsnap.conf --list-archives > $TMPFILE
+    fi
+else
+    TMPFILE=/tmp/tarsnap.archives.$$
+    $TARSNAP --configfile /etc/tarsnap.conf --list-archives > $TMPFILE
+fi
+
 DELARCHIVES=""
 
-for label in $LABELS; do
+while read line; do
     case "$line" in \#*) continue;; esac # skip lines starting with "#"
     set $line
     # typical label & path: home and /home
@@ -67,8 +78,13 @@ for label in $LABELS; do
 done <$CONFIG
 
 if [ X"$DELARCHIVES" != X ]; then
-	echo "==> delete $DELARCHIVES"
-	$TARSNAP -d $DELARCHIVES
-fi
+    echo "==> delete $DELARCHIVES"
 
-rm $TMPFILE
+    if [ "$DEBUG" = "true" ]
+    then
+        echo $TARSNAP -d $DELARCHIVES
+    else
+        $TARSNAP -d $DELARCHIVES
+        rm $TMPFILE
+    fi
+fi
