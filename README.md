@@ -1,7 +1,7 @@
 tarsnap-cron
 ============
 
-Cron scripts for tarsnap backup, including scheduled deletion of old backups.
+Cron scripts (bash/shell) for tarsnap backup, including scheduled deletion of old backups.
 
 Description
 -----------
