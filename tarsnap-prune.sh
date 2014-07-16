@@ -27,6 +27,7 @@ source $CONFIG
 DAILY=`expr $DAILY + 1`
 WEEKLY=`expr $WEEKLY + 1`
 MONTHLY=`expr $MONTHLY + 1`
+HOURLY=`expr $HOURLY + 1`
 
 # Do deletes
 if [ "$DEBUG" = "true" ]
@@ -47,7 +48,13 @@ for BACKUP in "${BACKUP_ARRAY[@]}"; do
     # typical label & path: www and /var/www
     label=${SPLIT[0]}
     path=${SPLIT[1]}
-
+	
+	# hourly
+	for i in `grep -E "^$PREFIX-$label-.+-hourly$" $TMPFILE | sort -rn | tail -n +$HOURLY`; do
+		echo "==> delete $i"
+		DELARCHIVES="$DELARCHIVES -f $i"
+	done
+	
 	# daily
 	for i in `grep -E "^$PREFIX-$label-.+-daily$" $TMPFILE | sort -rn | tail -n +$DAILY`; do
 		echo "==> delete $i"
@@ -65,6 +72,7 @@ for BACKUP in "${BACKUP_ARRAY[@]}"; do
 		echo "==> delete $i"
 		DELARCHIVES="$DELARCHIVES -f $i"
 	done
+	
 done
 
 if [ X"$DELARCHIVES" != X ]; then
