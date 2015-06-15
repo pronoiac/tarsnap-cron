@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Tarsnap backup script
 # Written by Tim Bishop, 2009.
