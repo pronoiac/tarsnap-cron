@@ -1,0 +1,6 @@
+[Unit]
+Description=Tarsnap Prune Daily
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/tarsnap-prune

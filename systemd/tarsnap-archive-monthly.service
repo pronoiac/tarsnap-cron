@@ -1,0 +1,6 @@
+[Unit]
+Description=Tarsnap Archive Monthly
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/tarsnap-archive monthly
