@@ -10,7 +10,13 @@ systemctl start /etc/systemd/system/{file}.timer
 systemctl enable /etc/systemd/system/{file}.timer
 ```
 
-`systemctl start` begins the timer on this boot, and the `systemctl enable` will start the timer on a subsequent boot.
+`systemctl start` begins the timer on this boot, and the `systemctl enable`
+will start the timer on a subsequent boot.
+
+## Systemd Timers
+
+A good resource for learning more about systemd timers is
+[here](https://wiki.archlinux.org/index.php/Systemd/Timers).
 
 ## Testing
 
