@@ -3,4 +3,4 @@ Description=Tarsnap Archive Monthly
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/tarsnap-archive monthly
+ExecStart=/usr/local/bin/tarsnap-archive.sh monthly

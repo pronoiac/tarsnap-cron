@@ -3,4 +3,4 @@ Description=Tarsnap Prune Daily
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/tarsnap-prune
+ExecStart=/usr/local/bin/tarsnap-prune.sh
