@@ -1,8 +1,8 @@
 ## Usage
 
 1. Copy .sh files into /usr/local/bin
-2. chmod 777 /usr/local/bin/tarnsap-archive*
-3. cp *.timer *.service /etc/sysytemd/system
+2. chmod 777 /usr/local/bin/tarsnap-archive*
+3. cp *.timer *.service /etc/systemd/system
 4. run the following on all the timer files
 
 ```
