@@ -14,6 +14,8 @@ Archiving and pruning can be run on different systems. The default weekly backup
 
 This is based on work by [Tim Bishop][bishop]. 
 
+Some Linux distros are using systemd instead of cron. See the systemd folder for some relevant timers and documentation, contributed by @rphillips.
+
 
 Changes from the original
 -------------------------
