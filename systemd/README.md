@@ -1,7 +1,7 @@
 ## Usage
 
 1. Copy .sh files into /usr/local/bin
-2. chmod 777 /usr/local/bin/tarsnap-archive*
+2. `chmod 755 /usr/local/bin/tarsnap-*`
 3. cp *.timer *.service /etc/systemd/system
 4. run the following on all the timer files
 
