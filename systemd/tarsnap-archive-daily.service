@@ -1,0 +1,6 @@
+[Unit]
+Description=Tarsnap Archive Daily
+
+[Service]
+Type=simple
+ExecStart=test $(date +\%u) -ne 1 && test $(date +\%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh daily

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run tarsnap-archive Monthly
+
+[Timer]
+OnCalendar=*-*-1 01:01:00
+Persistent=true
+Unit=tarsnap-archive-monthly.service
+
+[Install]
+WantedBy=multi-user.target

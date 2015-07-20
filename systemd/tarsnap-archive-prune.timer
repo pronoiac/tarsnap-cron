@@ -1,0 +1,10 @@
+[Unit]
+Description=Run tarsnap-prune
+
+[Timer]
+OnCalendar=*-*-* 01:55:00
+Persistent=true
+Unit=tarsnap-archive-prune.service
+
+[Install]
+WantedBy=multi-user.target
