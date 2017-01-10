@@ -3,4 +3,4 @@ Description=Tarsnap Archive Weekly
 
 [Service]
 Type=simple
-ExecStart=test $(date +\%u) -eq 1 && test $(date +\%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh weekly
+ExecStart=/usr/bin/test $(date +\%u) -eq 1 && /usr/bin/test $(date +\%e) -ne 01 && /usr/local/bin/tarsnap-archive.sh weekly
