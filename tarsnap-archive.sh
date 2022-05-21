@@ -20,6 +20,12 @@ source $CONFIG
 
 timestamp=`date +%Y-%m-%d-%H%M`
 
+if [ -z $1 ]
+then
+    echo 1>&2 First parameter should be hourly, daily, weekly, monthly, as appropriate.
+    exit 1
+fi
+
 # the last part of the suffix is now specified on the command line
 # cron should call this with daily, weekly, monthly, as appropriate
 # typical suffix: 2014-02-22-1920-daily
